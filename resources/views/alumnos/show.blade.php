@@ -4,6 +4,8 @@
 
 @section('content')
     <h1>Cuotas de {{ $alumno->nombre }} {{ $alumno->apellido }}</h1>
+      <!-- Otras secciones de la vista -->
+      <h2>Total Pagado por {{ $alumno->nombre }} {{ $alumno->apellido }}: ${{ $alumno->totalPagado() }}</h2>
     <p><strong>DNI:</strong> {{ $alumno->dni }}</p>
     <a href="{{ route('alumnos.index') }}" class="btn btn-primary">Volver a la Lista</a>
 
@@ -56,7 +58,6 @@
                             <td>
                                 @if ($cuota->estado_pago !== 'pagada')
                                     ${{ $cuota->calcularTotal() }}
-                               
                                 @else
                                     ${{ $cuota->total }}
                                 @endif

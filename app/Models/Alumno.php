@@ -10,6 +10,15 @@ class Alumno extends Model
 {
     protected $fillable = ['nombre', 'apellido', 'dni'];
 
+
+    // Método para calcular el total pagado por el alumno
+    public function totalPagado()
+    {
+        // Suma los totales de las cuotas pagadas del alumno
+        return $this->cuotas()->where('estado_pago', 'pagada')->sum('total');
+    }
+
+    
     public function cuotas()
     {
         return $this->hasMany(Cuota::class);

@@ -71,34 +71,35 @@ public function actualizarEstado($nuevoEstado)
         }
     }
 
-            // Función para congelar las disciplinas si la cuota está pagada
-    public function congelarDisciplinas()
-    {
-        if ($this->estado_pago === 'pagada') {
-            // Obtén las disciplinas asociadas al alumno de esta cuota
-            $disciplinas = $this->alumno->disciplinas;
+   // Función para congelar las disciplinas si la cuota está pagada
+   public function congelarDisciplinas()
+   {
+       if ($this->estado_pago === 'pagada') {
+           // Obtén las disciplinas asociadas al alumno de esta cuota
+           $disciplinas = $this->alumno->disciplinas;
 
-            // Actualiza el estado de las disciplinas asociadas
-            foreach ($disciplinas as $disciplina) {
-                $disciplina->update(['estado' => 'congelada']); // Ajusta según tu modelo de datos
-            }
-        }
-    }
+           // Actualiza el estado de las disciplinas asociadas
+           foreach ($disciplinas as $disciplina) {
+               $disciplina->update(['estado' => 'congelada']); // Ajusta según tu modelo de datos
+           }
+       }
+   }
 
-    // Sobrescribe el método save para realizar acciones adicionales antes de guardar
-    public function save(array $options = [])
-    {
-        // Antes de guardar, verifica si el estado es 'no_corresponde' y ajusta el total
-        if ($this->estado_pago === 'no_corresponde') {
-            $this->total = 0;
-        }
+   // Sobrescribe el método save para realizar acciones adicionales antes de guardar
+   public function save(array $options = [])
+   {
+       // Antes de guardar, verifica si el estado es 'no_corresponde' y ajusta el total
+       if ($this->estado_pago === 'no_corresponde') {
+           $this->total = 0;
+       }
 
-        // Llama al método save original para guardar la cuota
-        parent::save($options);
+       // Llama al método save original para guardar la cuota
+       parent::save($options);
 
-        // Llama a la función para congelar las disciplinas después de guardar
-        $this->congelarDisciplinas();
-    }
+       // Llama a la función para congelar las disciplinas después de guardar
+       $this->congelarDisciplinas();
+   }
+
 
 
 }
